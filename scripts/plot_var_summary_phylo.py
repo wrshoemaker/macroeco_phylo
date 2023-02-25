@@ -58,14 +58,14 @@ ax_rank_vs_diversity_phylo.set_title("Diversity predictions", fontsize=11, fontw
 
 
 
-ax_rank_vs_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_richness_phylo.transAxes)
-ax_rank_vs_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_diversity_phylo.transAxes)
+ax_rank_vs_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[0], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_richness_phylo.transAxes)
+ax_rank_vs_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_diversity_phylo.transAxes)
 
-ax_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[3], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_phylo.transAxes)
-ax_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[4], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_phylo.transAxes)
+ax_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_phylo.transAxes)
+ax_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[3], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_phylo.transAxes)
 
-ax_richness_cov_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[5], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_cov_phylo.transAxes)
-ax_diversity_cov_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[6], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_cov_phylo.transAxes)
+ax_richness_cov_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[4], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_cov_phylo.transAxes)
+ax_diversity_cov_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[5], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_cov_phylo.transAxes)
 
 
 

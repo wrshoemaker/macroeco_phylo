@@ -27,7 +27,7 @@ rarefied = False
 #fig = plt.figure(figsize = (9, 12)) #
 #fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
-fig = plt.figure(figsize = (13, 4)) #
+fig = plt.figure(figsize = (14, 4)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
 
