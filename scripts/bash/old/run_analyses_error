@@ -1,0 +1,38 @@
+
+The 'gcc/4.9.3' module is being loaded
+
+	Unloading the conflicting module 'python/3.6.1'
+
+
+The 'python/3.6.1' module is being unloaded
+
+
+The 'gcc/4.9.3' module is being unloaded
+
+hdf5/1.12.0
+	Unloading the dependent module 'hdf5/1.12.0'
+
+Subsetting samples...
+Getting SADs...
+Loading tree...
+Calculating diversity and tree features...
+Traceback (most recent call last):
+  File "/u/home/w/wrshoema/project-ngarud/macroeco_phylo/scripts/run_analyses.py", line 57, in <module>
+    symmetry = tree_utils.tree_symmetry(tree_subset).weighted_symmetry()
+  File "/u/project/ngarud/wrshoema/macroeco_phylo/scripts/tree_utils.py", line 186, in weighted_symmetry
+    tree_symmetry = raw_symmetry(self.tree)
+NameError: name 'raw_symmetry' is not defined
+
+The 'gcc/4.9.3' module is being loaded
+
+	Unloading the conflicting module 'python/3.6.1'
+
+
+The 'python/3.6.1' module is being unloaded
+
+
+The 'gcc/4.9.3' module is being unloaded
+
+hdf5/1.12.0
+	Unloading the dependent module 'hdf5/1.12.0'
+
