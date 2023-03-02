@@ -18,6 +18,8 @@ rarefied = False
 
 
 
+
+
 for environment in diversity_utils.environments_to_keep:
 
     sys.stderr.write("Running analyses for %s...\n" % environment)
@@ -41,7 +43,7 @@ for environment in diversity_utils.environments_to_keep:
     # estimate the expected contribution towards diversity of each taxon in each site via numerical integration
     sys.stderr.write("Estimating integrals for Shannon's diversity predictions...\n")
     dbd_utils.make_diversity_slm_dbd_integral_dict(environment)
-    
+
 
     # predict statistical moments of richness and diversity for phylogenetic coarse-graining
     sys.stderr.write("Predicting within-phylogenetic scale richness and diversity...\n")
@@ -68,8 +70,10 @@ for environment in diversity_utils.environments_to_keep:
 
 
 # generate singular value decomposition dictionary for taxonomic coarse-graining
-sys.stderr.write("Building SVD dictionaries for taxonomic data...\n")
+# run Singular Value Decomposition for each environment so you dont have to re-run SVD for each simulation iteration
+sys.stderr.write("Building SVD dictionaries for taxonomic and phylogenetic data...\n")
 dbd_utils.make_svd_taxon_dict()
+dbd_utils.make_svd_phylo_dict()
 
 
 # predict statistical moments of richness and diversity for taxonomic coarse-graining
@@ -87,4 +91,10 @@ dbd_utils.make_richness_slm_dbd_dict()
 sys.stderr.write("Predicting taxonomic DBD slope for diversity estimates via simulations...\n")
 dbd_utils.make_diversity_slm_dbd_simulation_taxon_dict()
 
+
+
+
+
+#macroeco_phylo_supplement.pdf
+#  gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.5 -dNOPAUSE -dQUIET -dBATCH -dPrinted=false -sOutputFile=foo-compressed.pdf macroeco_phylo_supplement.pdf
 

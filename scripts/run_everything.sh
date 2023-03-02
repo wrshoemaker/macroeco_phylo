@@ -15,36 +15,41 @@ python run_analysis.py
 
 
 # Generate main manuscript plots
+
 # Fig. 2
-python plot_coarse_grained_dist.py
-
-
-# Fig. 3
 python plot_gamma_example.py
 
 
-# Fig. 4
+# Fig. 3
 # predict mean estimator
-python plot_mean_summary.py
+python plot_mean_summary_phylo.py
+
+
+# Fig. 4
+# predict variance of estimator
+python plot_var_summary_phylo.py
 
 
 # Fig. 5
-# predict variance of estimator
-python plot_var_summary.py
-
+# predict DBD slope
+python plot_dbd_summary_phylo.py
 
 # Fig. 6
-# predict DBD slope
-python plot_dbd_summary.py
-
-# Fig. 7
 # predict DBD diversity slope using simulation
-python plot_dbd_diversity_slm_simulation.py
+python plot_dbd_diversity_slm_simulation_mean_phylo.py
+
+
+
 
 
 ###############################
 # Generate supplemental plots #
 ###############################
+
+
+# fraction OTUs vs. distance
+python plot_coarse_grained_dist.py
+
 
 # plot coarse-grained AFDs
 python plot_coarse_afd_taxa.py
@@ -56,13 +61,14 @@ python plot_gamma_occupancy_all_taxon.py
 python plot_gamma_occupancy_all_phylo.py
 
 
-# plot gamma occupancy error across ranks
-python plot_gamma_error_summary.py
-
-
 # MAD vs. occupancy
 python plot_abundance_vs_occupancy_all_phylo.py
 python plot_abundance_vs_occupancy_all_taxon.py
+
+
+# plot gamma occupancy error across ranks
+python plot_gamma_error_summary.py
+
 
 
 # plot fine vs. coarse variance
@@ -73,6 +79,13 @@ python plot_fine_vs_coarse_variance_phylo.py
 # plot proof that analytic mean and var for richness and diversity matches simulations
 # one plot
 python plot_prediction_vs_simulation.py
+
+# mean taxon
+python plot_mean_summary_taxon.py
+
+
+# var taxon
+python plot_var_summary_taxon.py
 
 
 # plot DBD richness slope
@@ -91,14 +104,11 @@ python plot_dbd_diversity_slm_simulation_phylo_all.py
 
 
 
+python plot_dbd_diversity_slm_simulation_mean_taxon.py
 
 
 
-# things to consider plotting
-# plot predict mean richness all
-# plot predict var richness all 
-# plot predict mean diversity all
-# plot predict var diversity all
+
 
 
 

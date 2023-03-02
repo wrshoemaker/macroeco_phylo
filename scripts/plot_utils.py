@@ -19,8 +19,6 @@ rgb_blue_taxon = mpl.colors.ListedColormap(rgb_blue_taxon[cmap_offset:,:-1])
 rgb_blue_phylo = cm.Blues(numpy.linspace(0,1,100+10))
 rgb_blue_phylo = mpl.colors.ListedColormap(rgb_blue_phylo[cmap_offset:,:-1])
 
-color_radius=2
-
 
 
 
@@ -153,7 +151,7 @@ def plot_color_by_pt_dens(x, y, radius, loglog=0):
 
 
 
-def get_scatter_density_arrays_for_loglog(x, y):
+def get_scatter_density_arrays_for_loglog(x, y, color_radius=2):
 
 
     idx_to_keep = (x>0) & (y > 0)

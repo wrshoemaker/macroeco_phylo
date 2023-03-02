@@ -766,8 +766,18 @@ def make_sad_annotated_no_subsampling_phylo_dict(environment):
     afd_dict['samples'] = samples_to_keep
     afd_dict['taxa'] = {}
 
+    # make sure OTU is also in phylogeny
+    tree = tree_utils.get_emp_tree()
+    tree_copy = tree.copy()
+    leaf_names = tree_copy.get_leaf_names()
+
+
+
     taxonomy_names_all = numpy.concatenate(taxonomy_names)
-    taxonomy_names_set = list(set(taxonomy_names_all.tolist()))
+    taxonomy_names_set_old = list(set(taxonomy_names_all.tolist()))
+    taxonomy_names_set = list(set(taxonomy_names_all.tolist()) & set(leaf_names))
+    print(len(taxonomy_names_set_old), len(taxonomy_names_set))
+
     # initialize abundance dictionary
     for t in taxonomy_names_set:
         afd_dict['taxa'][t] = {}
@@ -778,7 +788,6 @@ def make_sad_annotated_no_subsampling_phylo_dict(environment):
     for i in range(len(SADs)):
         SAD_i = SADs[i]
         taxonomy_names_i = numpy.asarray(taxonomy_names[i])
-
         for t in taxonomy_names_set:
             if t in taxonomy_names_i:
                 afd_dict['taxa'][t]['abundance'].append(SAD_i[numpy.where(taxonomy_names_i==t)[0][0]])

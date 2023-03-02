@@ -1,10 +1,13 @@
 [![DOI:10.1101/2021.10.05.463161](http://img.shields.io/badge/DOI-10.1101/2021.10.05.463161-B31B1B.svg)](https://doi.org/10.1101/2022.04.07.487434)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6793770.svg)](https://doi.org/10.5281/zenodo.6793770)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7692046.svg)](https://doi.org/10.5281/zenodo.7692046)
 
 
 # macroeco_phylo
 
 
+Repository for code associated with the preprint:
+
+Macroecological patterns in coarse-grained microbial communities
 
 ### Setting up your environment
 
@@ -44,6 +47,8 @@ ftp://ftp.microbio.me/emp/release1/mapping_files/
 ftp://ftp.microbio.me/emp/release1/otu_info/silva_123/
 ftp://ftp.microbio.me/emp/release1/otu_tables/closed_ref_silva/
 ```
+
+and place each of these directories in the `~/GitHub/macroeco_phylo/data/emp/`
 
 Alternatively, these files are also available on [Qiita](https://qiita.ucsd.edu/emp/).
 

@@ -27,26 +27,26 @@ rarefied = False
 #fig = plt.figure(figsize = (9, 12)) #
 #fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
-fig = plt.figure(figsize = (14, 4)) #
+fig = plt.figure(figsize = (10, 4)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
 
 #ax_afd_taxon = plt.subplot2grid((3, 2), (0, 0))
-ax_afd_phylo = plt.subplot2grid((1,3), (0, 0))
+ax_afd_phylo = plt.subplot2grid((1,2), (0, 0))
 
 #ax_occupancy_taxon = plt.subplot2grid((3, 2), (1, 0))
-ax_occupancy_phylo = plt.subplot2grid((1, 3), (0, 1))
+#ax_occupancy_phylo = plt.subplot2grid((1, 3), (0, 1))
 
 #ax_mad_vs_occupancy_taxon = plt.subplot2grid((3, 2), (2, 0))
-ax_mad_vs_occupancy_phylo = plt.subplot2grid((1, 3), (0, 2))
+ax_mad_vs_occupancy_phylo = plt.subplot2grid((1, 2), (0, 1))
 
 
 #ax_afd_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[0], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_afd_taxon.transAxes)
 ax_afd_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[0], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_afd_phylo.transAxes)
 #ax_occupancy_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_occupancy_taxon.transAxes)
-ax_occupancy_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_occupancy_phylo.transAxes)
+#ax_occupancy_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_occupancy_phylo.transAxes)
 #ax_mad_vs_occupancy_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[4], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_mad_vs_occupancy_taxon.transAxes)
-ax_mad_vs_occupancy_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_mad_vs_occupancy_phylo.transAxes)
+ax_mad_vs_occupancy_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_mad_vs_occupancy_phylo.transAxes)
 
 
 #ax_afd_taxon.set_title('Taxonomic coarse-graining', fontsize=12, fontweight='bold')
@@ -352,7 +352,7 @@ for distance in distances:
     bins_x_to_keep_no_nan, bins_y_no_nan = plot_utils.get_bin_mean_x_y(occupancy, predicted_occupancies, bins=20)
 
     #ax_occupancy_phylo.scatter(occupancy, predicted_occupancies, color=color_all(distances.index(distance)), s=40, linewidth=0.8, edgecolors='k')
-    ax_occupancy_phylo.scatter(bins_x_to_keep_no_nan, bins_y_no_nan, color=color_all(distances.index(distance)), s=35, alpha=0.9, linewidth=0.8, edgecolors='k')
+    #ax_occupancy_phylo.scatter(bins_x_to_keep_no_nan, bins_y_no_nan, color=color_all(distances.index(distance)), s=35, alpha=0.9, linewidth=0.8, edgecolors='k')
 
 
     occupancy_all.extend(occupancy.tolist())
@@ -368,15 +368,15 @@ predicted_and_observed_occupancies = numpy.concatenate((occupancy_all,predicted_
 min_ = min(predicted_and_observed_occupancies)
 max_ = max(predicted_and_observed_occupancies)
 
-ax_occupancy_phylo.set_xscale('log', base=10)
-ax_occupancy_phylo.set_yscale('log', base=10)
-ax_occupancy_phylo.set_xlabel("Observed occupancy", fontsize = 12)
-ax_occupancy_phylo.set_ylabel("Predicted occupancy", fontsize = 12)
+#ax_occupancy_phylo.set_xscale('log', base=10)
+#ax_occupancy_phylo.set_yscale('log', base=10)
+#ax_occupancy_phylo.set_xlabel("Observed occupancy", fontsize = 12)
+#ax_occupancy_phylo.set_ylabel("Predicted occupancy", fontsize = 12)
 #ax_occupancy_taxon.plot([min_,max_],[min_,max_], lw=4, ls=':',c='k', zorder=2, label='1:1')
-ax_occupancy_phylo.plot([min_*0.5,1.1],[min_*0.5,1.1], lw=2,ls='--',c='k',zorder=2, label='1:1')
-ax_occupancy_phylo.set_xlim([0.004, 1.1])
-ax_occupancy_phylo.set_ylim([0.004, 1.1])
-ax_occupancy_phylo.legend(loc="upper left", fontsize=7)
+#ax_occupancy_phylo.plot([min_*0.5,1.1],[min_*0.5,1.1], lw=2,ls='--',c='k',zorder=2, label='1:1')
+#ax_occupancy_phylo.set_xlim([0.004, 1.1])
+#ax_occupancy_phylo.set_ylim([0.004, 1.1])
+#ax_occupancy_phylo.legend(loc="upper left", fontsize=7)
 
 
 
