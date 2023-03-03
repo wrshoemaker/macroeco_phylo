@@ -98,6 +98,8 @@ python plot_dbd_diversity_slm_taxon_all.py
 python plot_dbd_diversity_slm_phylo_all.py
 
 
+python plot_dbd_summary_taxon.py
+
 # plot DBD diversity slope simulation with correlation
 python plot_dbd_diversity_slm_simulation_taxon_all.py
 python plot_dbd_diversity_slm_simulation_phylo_all.py
