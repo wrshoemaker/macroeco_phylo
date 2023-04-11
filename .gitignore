@@ -42,3 +42,5 @@ data/diversity_slm_phylo_integral_dict/
 data/richness_diversity_prediction_phylo_dict_old/
 data/s_by_s_test.pickle
 data/richness_diversity_phylo_mean_simulation_dict/
+data/distance_correlation_dict.pickle
+data/distance_correlation_dict/

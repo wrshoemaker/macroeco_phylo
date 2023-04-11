@@ -201,8 +201,8 @@ ax_richness_phylo.set_xscale('log', base=10)
 ax_richness_phylo.set_yscale('log', base=10)
 ax_richness_phylo.set_xlabel('Observed variance of richness', fontsize=12)
 ax_richness_phylo.set_ylabel('Predicted variance of richness', fontsize=12)
-ax_richness_phylo.legend(loc="lower right", fontsize=10)
-ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7)
+#ax_richness_phylo.legend(loc="lower right", fontsize=10)
+ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7, frameon=False)
 
 
 

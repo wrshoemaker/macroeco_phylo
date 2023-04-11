@@ -26,6 +26,8 @@ rarefied = False
 fig = plt.figure(figsize = (10, 10)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
+
+min_occupancy = 1.0
 environments_to_keep = diversity_utils.environments_to_keep
 
 environment_chunk_all = [environments_to_keep[x:x+3] for x in range(0, len(environments_to_keep), 3)]
@@ -41,6 +43,17 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
         taxa = numpy.asarray(list(pres_abs_dict['taxa'].keys()))
         s_by_s_taxon = numpy.asarray([pres_abs_dict['taxa'][t]['abundance'] for t in taxa])
         rel_s_by_s_taxon = (s_by_s_taxon/s_by_s_taxon.sum(axis=0))
+
+        occupancy_taxon = (s_by_s_taxon>0).sum(axis=1)/s_by_s_taxon.shape[1]
+        
+        if environment == 'microbial mat metagenome':
+            taxon_to_keep = (occupancy_taxon >= 0.85)
+        else:
+            taxon_to_keep = (occupancy_taxon >= min_occupancy)
+        
+        #taxon_to_keep = (occupancy_taxon >= min_occupancy)
+        rel_s_by_s_taxon = rel_s_by_s_taxon[taxon_to_keep,:]
+
 
         asv_log10_rescaled_all = []
         for clade in rel_s_by_s_taxon:
@@ -89,6 +102,17 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
             s_by_s_genera = s_by_s_genera[:,~(numpy.all(s_by_s_genera == 0, axis=0))]
             rel_s_by_s_genera = (s_by_s_genera/s_by_s_genera.sum(axis=0))
 
+            occupancy_genera = (s_by_s_genera>0).sum(axis=1)/s_by_s_genera.shape[1]
+
+            print(environment)
+            if environment == 'microbial mat metagenome':
+                genera_to_keep = (occupancy_genera >= 0.75)
+            else:
+                genera_to_keep = (occupancy_genera >= min_occupancy)
+
+            #genera_to_keep = (occupancy_genera >= min_occupancy)
+            rel_s_by_s_genera = rel_s_by_s_genera[genera_to_keep,:]
+
             clade_log10_rescaled_all = []
             for clade in rel_s_by_s_genera:
 
@@ -109,8 +133,6 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
             #bins_mean_to_plot = bins_mean_[hist_>0]
 
             hist_to_plot, bins_mean_to_plot = diversity_utils.get_hist_and_bins(clade_log10_rescaled_all)
-
-            print(rank)
 
             ax.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=plot_utils.rgb_blue_taxon(rank_idx+1), alpha=0.9, lw=2, label=rank)
 

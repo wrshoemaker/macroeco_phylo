@@ -167,8 +167,8 @@ ax_richness_taxon.set_xscale('log', base=10)
 ax_richness_taxon.set_yscale('log', base=10)
 ax_richness_taxon.set_xlabel('Predicted mean richness', fontsize=12)
 ax_richness_taxon.set_ylabel('Observed mean richness', fontsize=12)
-ax_richness_taxon.legend(loc='upper left')
-ax_richness_taxon.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7)
+#ax_richness_taxon.legend(loc='upper left')
+ax_richness_taxon.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7, frameon=False)
 
 
 

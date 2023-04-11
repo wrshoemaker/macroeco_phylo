@@ -27,6 +27,8 @@ rarefied = False
 #fig = plt.figure(figsize = (9, 12)) #
 #fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
+occupancy_clades = 1.0
+
 fig = plt.figure(figsize = (10, 4)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
@@ -202,7 +204,12 @@ for distance_idx, distance in enumerate(distances):
 
     # coarse grain s-by-s for all clades
     s_by_s_all_clades = numpy.stack([numpy.sum(s_by_s[coarse_grained_idx,:], axis=0) for coarse_grained_idx in coarse_grained_idx_all], axis=0)
+    
+    occupancy_clades = (s_by_s_all_clades>0).sum(axis=1)/s_by_s_all_clades.shape[1]
+    clades_to_keep = (occupancy_clades >= occupancy_clades)
+
     rel_s_by_s_all_clades = (s_by_s_all_clades/s_by_s_all_clades.sum(axis=0))
+    rel_s_by_s_all_clades = rel_s_by_s_all_clades[clades_to_keep,:]
 
     clade_log10_rescaled_all = []
     for clade in rel_s_by_s_all_clades:

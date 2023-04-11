@@ -25,6 +25,8 @@ rarefied = False
 fig = plt.figure(figsize = (11, 10)) #
 fig.subplots_adjust(bottom= 0.1,  wspace=0.15)
 
+min_occupancy = 1.0
+
 environments_to_keep = diversity_utils.environments_to_keep
 #environments_to_keep = [environments_to_keep[0]]
 
@@ -44,6 +46,7 @@ for environment in environments_to_keep:
 distances_all = list(set(distances_all))
 distances_all.sort()
 color_all = plot_utils.make_blue_cmap(len(distances_all))
+
 
 
 
@@ -87,6 +90,13 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
             # coarse grain s-by-s for all clades
             s_by_s_all_clades = numpy.stack([numpy.sum(s_by_s[coarse_grained_idx,:], axis=0) for coarse_grained_idx in coarse_grained_idx_all], axis=0)
             rel_s_by_s_all_clades = (s_by_s_all_clades/s_by_s_all_clades.sum(axis=0))
+
+            occupancy_clades = (s_by_s_all_clades>0).sum(axis=1)/s_by_s_all_clades.shape[1]
+
+
+            clades_to_keep = (occupancy_clades >= min_occupancy)
+            
+            rel_s_by_s_all_clades = rel_s_by_s_all_clades[clades_to_keep,:]
 
 
             clade_log10_rescaled_all = []

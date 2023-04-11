@@ -150,6 +150,25 @@ def plot_color_by_pt_dens(x, y, radius, loglog=0):
 
 
 
+def get_scatter_density_arrays_for_linearlog(x, y, color_radius=2):
+
+
+    #idx_to_keep = (x>0) & (y > 0)
+    #x = x[idx_to_keep]
+    #y = y[idx_to_keep]
+
+    x = numpy.log10(x)
+
+    x_and_y = numpy.concatenate((x,y),axis=0)
+    #min_ = min(x_and_y)
+    #max_ = max(x_and_y)
+
+    sorted_plot_data = plot_color_by_pt_dens(x, y, radius=color_radius, loglog=0)
+    x,y,z = sorted_plot_data[:, 0], sorted_plot_data[:, 1], sorted_plot_data[:, 2]
+
+    return x, y, z
+
+
 
 def get_scatter_density_arrays_for_loglog(x, y, color_radius=2):
 

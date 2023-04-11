@@ -135,7 +135,7 @@ color_phylo_example = plot_utils.get_custom_cmap_phylo(example_environment, n=le
 ax_rank_vs_richness_phylo.plot(distance_example, mean_richness_predicted_example_phylo, ls='-', lw=2, alpha=0.8, c='k')
 ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_predicted_example_phylo, color='k', s=45, linewidth=0.8, edgecolors='k', zorder=3, label='Predicted')
 ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_observed_example_phylo, color=color_phylo_example, s=45, linewidth=0.8, edgecolors='k', zorder=3,  label='Observed')
-ax_rank_vs_richness_phylo.legend(loc='upper right')
+ax_rank_vs_richness_phylo.legend(loc='upper right', frameon=False)
 
 # plot example diversity phylo
 ax_rank_vs_diversity_phylo.plot(distance_example, mean_diversity_predicted_example_phylo, ls='-', lw=2, alpha=0.8, c='k')
@@ -175,7 +175,7 @@ ax_richness_phylo.set_xscale('log', base=10)
 ax_richness_phylo.set_yscale('log', base=10)
 ax_richness_phylo.set_xlabel('Predicted mean richness', fontsize=12)
 ax_richness_phylo.set_ylabel('Observed mean richness', fontsize=12)
-ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7)
+ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7, frameon=False)
 
 
 
