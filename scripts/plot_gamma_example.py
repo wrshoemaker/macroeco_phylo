@@ -192,6 +192,7 @@ taxa = numpy.asarray(list(pres_abs_dict['taxa'].keys()))
 sys.stderr.write("Getting site-by-species matrix...\n")
 s_by_s = numpy.asarray([pres_abs_dict['taxa'][t]['abundance'] for t in taxa])
 
+clade_log10_rescaled_all_all = []
 sys.stderr.write("Running phylogenetic coarse-graining.....\n")
 for distance_idx, distance in enumerate(distances):
 
@@ -214,12 +215,13 @@ for distance_idx, distance in enumerate(distances):
     clade_log10_rescaled_all = []
     for clade in rel_s_by_s_all_clades:
 
-        clade = clade[clade>0]
-        clade_log10 = numpy.log10(clade)
+        #clade = clade[clade>0]
+        clade_log10 = numpy.log10(clade[(clade>0) & (~numpy.isnan(clade))])
 
-        if len(clade_log10) < 4:
+        # if len(clade_log10) < 4:
+        if len(clade_log10)/len(clade) < 0.9:
             continue
-
+        
         clade_log10_rescaled = (clade_log10 - numpy.mean(clade_log10))/numpy.std(clade_log10)
         clade_log10_rescaled_all.extend(clade_log10_rescaled)
 
@@ -236,15 +238,31 @@ for distance_idx, distance in enumerate(distances):
     occupancy_dict['phylo'][distance]['predicted_occupancies'] = predicted_occupancies
     occupancy_dict['phylo'][distance]['mad'] = mad
 
+    #if len(clade_log10_rescaled_all) < 100*10:
+    #    continue
+
 
     hist_to_plot, bins_mean_to_plot = diversity_utils.get_hist_and_bins(clade_log10_rescaled_all)
-    ax_afd_phylo.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=color_all(distances.index(distance)), alpha=0.9, lw=2)
+    #ax_afd_phylo.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=color_all(distances.index(distance)), alpha=0.9, lw=2)
+    ax_afd_phylo.scatter(bins_mean_to_plot, hist_to_plot, s=35, color=color_all(distances.index(distance)), alpha=0.9, lw=2, linewidth=0.8, edgecolors='k')
+
+    clade_log10_rescaled_all_all.extend(clade_log10_rescaled_all)
+
+#print(clade_log10_rescaled_all_all)
 
 
 #ax.set_title(' '.join(environment.split(' ')[:-1]).capitalize(), fontsize=11)
-ax_afd_phylo.set_yscale('log', base=10)
 ax_afd_phylo.set_ylabel("Probability density", fontsize = 12)
-ax_afd_phylo.set_xlabel("Rescaled log relative abundance", fontsize = 12)
+ax_afd_phylo.set_xlabel("Rescaled " + r'$\mathrm{log}_{10}$' +   " relative abundance", fontsize = 12)
+
+
+shape_gamma, loc_gamma, scale_gamma = stats.loggamma.fit(clade_log10_rescaled_all_all)
+x = numpy.linspace(stats.loggamma.ppf(0.0001, shape_gamma, loc=loc_gamma, scale=scale_gamma), stats.loggamma.ppf(0.9999, shape_gamma, loc=loc_gamma, scale=scale_gamma), 100)
+pdf_loggamma_to_plot = stats.loggamma.pdf(x, shape_gamma, loc=loc_gamma, scale=scale_gamma)
+ax_afd_phylo.plot(x, pdf_loggamma_to_plot, 'k', ls='--', lw=3, label='Gamma fit')
+ax_afd_phylo.legend(loc="upper left", fontsize=7)
+ax_afd_phylo.set_ylim([0.0004, 0.9])
+ax_afd_phylo.set_yscale('log', base=10)
 
 
 

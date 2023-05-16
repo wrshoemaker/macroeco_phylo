@@ -50,8 +50,8 @@ ax_diversity_dist_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize
 ax_richness_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_taxon.transAxes)
 ax_diversity_taxon.text(-0.1, 1.04, plot_utils.sub_plot_labels[3], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_taxon.transAxes)
 
-ax_richness_dist_taxon.set_title("Intra vs. inter-group richness", fontsize=12, fontweight='bold')
-ax_diversity_dist_taxon.set_title("Intra vs. inter-group diversity", fontsize=12, fontweight='bold')
+ax_richness_dist_taxon.set_title("Fine vs. coarse-grained richness", fontsize=11, fontweight='bold')
+ax_diversity_dist_taxon.set_title("Fine vs. coarse-grained diversity", fontsize=11, fontweight='bold')
 
 
 
@@ -302,13 +302,13 @@ ax_diversity_taxon.text(0.2, 0.9, r'$\rho^{2} = $' + str(round(rho2_taxon, 3)), 
 
 #ax_richness_dist_taxon.set_xscale('log', base=10)
 ax_richness_dist_taxon.set_yscale('log', base=10)
-ax_richness_dist_taxon.set_xlabel("Observed intra vs. inter-group slope, richness", fontsize = 10)
+ax_richness_dist_taxon.set_xlabel("Observed fine vs. coarse-grained slope, richness", fontsize = 10)
 ax_richness_dist_taxon.set_ylabel("Probability density", fontsize = 10)
 ax_richness_dist_taxon.legend(handles=plot_utils.legend_elements, loc='upper right', fontsize=7)
 
 
 ax_diversity_dist_taxon.set_yscale('log', base=10)
-ax_diversity_dist_taxon.set_xlabel("Observed intra vs. inter-group slope, diversity", fontsize = 10)
+ax_diversity_dist_taxon.set_xlabel("Observed fine vs. coarse-grained slope, diversity", fontsize = 10)
 ax_diversity_dist_taxon.set_ylabel("Probability density", fontsize = 10)
 
 

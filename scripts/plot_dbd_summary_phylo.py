@@ -58,8 +58,8 @@ ax_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[3], fontsize=10, 
 #ax_richness_dist_phylo.text(1.2, 1.2, "Intra vs. inter-group richness", fontsize=18, fontweight='bold', ha='center', va='center', transform=ax_richness_dist_phylo.transAxes)
 #ax_diversity_dist_phylo.text(1.2, 1.2, "Intra vs. inter-group diversity", fontsize=18, fontweight='bold', ha='center', va='center', transform=ax_diversity_dist_phylo.transAxes)
 
-ax_richness_dist_phylo.set_title("Intra vs. inter-group richness", fontsize=12, fontweight='bold')
-ax_diversity_dist_phylo.set_title("Intra vs. inter-group diversity", fontsize=12, fontweight='bold')
+ax_richness_dist_phylo.set_title("Fine vs. coarse-grained richness", fontsize=11, fontweight='bold')
+ax_diversity_dist_phylo.set_title("Fine vs. coarse-grained diversity", fontsize=11, fontweight='bold')
 
 
 
@@ -310,14 +310,14 @@ ax_diversity_phylo.text(0.2, 0.9, r'$\rho^{2} = $' + str(round(rho2_phylo, 3)), 
 
 
 ax_richness_dist_phylo.set_yscale('log', base=10)
-ax_richness_dist_phylo.set_xlabel("Observed intra vs. inter-group slope, richness", fontsize = 10)
+ax_richness_dist_phylo.set_xlabel("Observed fine vs. coarse-grained slope, richness", fontsize = 10)
 ax_richness_dist_phylo.set_ylabel("Probability density", fontsize = 10)
 ax_richness_dist_phylo.legend(handles=plot_utils.legend_elements, loc='upper right', fontsize=7)
 
 
 
 ax_diversity_dist_phylo.set_yscale('log', base=10)
-ax_diversity_dist_phylo.set_xlabel("Observed intra vs. inter-group slope, diversity", fontsize = 10)
+ax_diversity_dist_phylo.set_xlabel("Observed fine vs. coarse-grained slope, diversity", fontsize = 10)
 ax_diversity_dist_phylo.set_ylabel("Probability density", fontsize = 10)
 
 
