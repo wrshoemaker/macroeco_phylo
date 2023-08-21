@@ -16,6 +16,7 @@ import plot_utils
 
 import diversity_utils
 import config
+from matplotlib.lines import Line2D
 
 
 
@@ -68,9 +69,9 @@ ax_rank_vs_diversity_phylo.set_title("Diversity prediction", fontweight='bold', 
 
 
 ax_rank_vs_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[0], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_richness_phylo.transAxes)
-ax_rank_vs_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_diversity_phylo.transAxes)
+ax_rank_vs_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_rank_vs_diversity_phylo.transAxes)
 
-ax_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[1], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_phylo.transAxes)
+ax_richness_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[2], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_richness_phylo.transAxes)
 ax_diversity_phylo.text(-0.1, 1.04, plot_utils.sub_plot_labels[3], fontsize=10, fontweight='bold', ha='center', va='center', transform=ax_diversity_phylo.transAxes)
 
 
@@ -175,7 +176,13 @@ ax_richness_phylo.set_xscale('log', base=10)
 ax_richness_phylo.set_yscale('log', base=10)
 ax_richness_phylo.set_xlabel('Predicted mean richness', fontsize=12)
 ax_richness_phylo.set_ylabel('Observed mean richness', fontsize=12)
-ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7, frameon=False)
+
+
+legend_elements = plot_utils.legend_elements
+
+legend_elements.append(Line2D([0], [0], label='1:1', lw=2, ls ='--', color='k'))
+
+ax_richness_phylo.legend(handles=legend_elements, loc='upper left', fontsize=7, frameon=False)
 
 
 

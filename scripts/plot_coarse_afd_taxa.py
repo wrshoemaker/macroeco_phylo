@@ -73,6 +73,7 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
         ax.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=plot_utils.rgb_blue_taxon(0), alpha=0.9, lw=2, label='OTU')
 
 
+        asv_log10_rescaled_all_to_fit = []
 
         sys.stderr.write("Running taxonomic coarse-graining.....\n")
         for rank_idx, rank in enumerate(diversity_utils.taxa_ranks):
@@ -132,9 +133,18 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
             #hist_to_plot = hist_[hist_>0]
             #bins_mean_to_plot = bins_mean_[hist_>0]
 
+            asv_log10_rescaled_all_to_fit.extend(clade_log10_rescaled_all)
             hist_to_plot, bins_mean_to_plot = diversity_utils.get_hist_and_bins(clade_log10_rescaled_all)
 
             ax.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=plot_utils.rgb_blue_taxon(rank_idx+1), alpha=0.9, lw=2, label=rank)
+
+        asv_log10_rescaled_all_to_fit = numpy.asarray(asv_log10_rescaled_all_to_fit)
+        shape_gamma, loc_gamma, scale_gamma = stats.loggamma.fit(asv_log10_rescaled_all_to_fit)
+        x = numpy.linspace(stats.loggamma.ppf(0.0001, shape_gamma, loc=loc_gamma, scale=scale_gamma), stats.loggamma.ppf(0.9999, shape_gamma, loc=loc_gamma, scale=scale_gamma), 100)
+        pdf_loggamma_to_plot = stats.loggamma.pdf(x, shape_gamma, loc=loc_gamma, scale=scale_gamma)
+        ax.plot(x, pdf_loggamma_to_plot, 'k', ls='--', lw=3, label='Gamma fit')
+        #ax.legend(loc="upper left", fontsize=9, frameon=False)
+        ax.set_ylim([0.0004, 1.7])
 
 
         ax.set_title(' '.join(environment.split(' ')[:-1]).capitalize(), fontsize=11)
@@ -148,7 +158,7 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
             ax.set_xlabel("Rescaled log relative abundance", fontsize = 10)
 
         if (environment_chunk_idx ==0) and (environment_idx == 0):
-            ax.legend(loc="upper left", fontsize=7)
+            ax.legend(loc="upper left", fontsize=7, frameon=False)
 
 
 

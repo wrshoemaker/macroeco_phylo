@@ -154,14 +154,14 @@ phylo_max = max(phylo_mean_slope_all+phylo_mean_slope_slm_all)*1.2
 ax.plot([phylo_min,phylo_max], [phylo_min,phylo_max], lw=2,ls='--',c='k',zorder=1, label='1:1')
 ax.set_xlim([phylo_min,phylo_max])
 ax.set_ylim([phylo_min,phylo_max])
-ax.legend(loc="upper left", fontsize=7)
+ax.legend(loc="upper left", fontsize=9, frameon=False)
 
 #ax_richness_taxon.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7)
 
 ax.set_xlabel("Observed mean slope, diversity", fontsize = 12)
 ax.set_ylabel("Predicted mean slope from simulation, diversity", fontsize = 11)
 ax.set_title("Fine vs. coarse-grained diversity", fontsize=12, fontweight='bold')
-ax.text(0.2, 0.85, r'$\rho^{2} =$' + str(round(phylo_rho, 3)), fontsize=10, ha='center', va='center', transform=ax.transAxes)
+ax.text(0.17, 0.85, r'$\rho^{2} =$' + str(round(phylo_rho, 3)), fontsize=10, ha='center', va='center', transform=ax.transAxes)
 
 #ax_phylo.plot([phylo_min,phylo_max], [phylo_min,phylo_max], lw=2,ls='--',c='k',zorder=1, label='1:1')
 #ax_phylo.set_xlim([phylo_min,phylo_max])

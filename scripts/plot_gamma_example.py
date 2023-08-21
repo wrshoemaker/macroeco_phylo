@@ -261,7 +261,7 @@ shape_gamma, loc_gamma, scale_gamma = stats.loggamma.fit(clade_log10_rescaled_al
 x = numpy.linspace(stats.loggamma.ppf(0.0001, shape_gamma, loc=loc_gamma, scale=scale_gamma), stats.loggamma.ppf(0.9999, shape_gamma, loc=loc_gamma, scale=scale_gamma), 100)
 pdf_loggamma_to_plot = stats.loggamma.pdf(x, shape_gamma, loc=loc_gamma, scale=scale_gamma)
 ax_afd_phylo.plot(x, pdf_loggamma_to_plot, 'k', ls='--', lw=3, label='Gamma fit')
-ax_afd_phylo.legend(loc="upper left", fontsize=7)
+ax_afd_phylo.legend(loc="upper left", fontsize=9, frameon=False)
 ax_afd_phylo.set_ylim([0.0004, 0.9])
 ax_afd_phylo.set_yscale('log', base=10)
 
@@ -530,7 +530,7 @@ bins_mean_all_to_keep_no_nan = bins_mean_all_to_keep[(~numpy.isnan(bins_mean_all
 bins_occupancies_no_nan = bins_occupancies[(~numpy.isnan(bins_mean_all_to_keep)) & (~numpy.isnan(bins_occupancies))]
 
 ax_mad_vs_occupancy_phylo.plot(10**bins_mean_all_to_keep_no_nan, 10**bins_occupancies_no_nan, lw=3, ls='--',c='k', zorder=2, label='Gamma prediction')
-ax_mad_vs_occupancy_phylo.legend(loc="upper left", fontsize=7)
+ax_mad_vs_occupancy_phylo.legend(loc="upper left", fontsize=9, frameon=False)
 
 
 

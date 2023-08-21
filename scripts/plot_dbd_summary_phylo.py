@@ -194,8 +194,8 @@ rho2_taxon = numpy.corrcoef(numpy.log10(mean_slope_observed_taxon_all), numpy.lo
 rho2_phylo = numpy.corrcoef(numpy.log10(mean_slope_observed_phylo_all), numpy.log10(mean_slope_predicted_phylo_all))[0,1]**2
 
 
+ax_richness_phylo.text(0.17, 0.85, r'$\rho^{2} = $' + str(round(rho2_phylo, 3)), fontsize=10, ha='center', va='center', transform=ax_richness_phylo.transAxes)
 
-ax_richness_phylo.text(0.2, 0.9, r'$\rho^{2} = $' + str(round(rho2_phylo, 3)), fontsize=10, ha='center', va='center', transform=ax_richness_phylo.transAxes)
 
 
 observed_taxon_all_environments = []
@@ -312,7 +312,7 @@ ax_diversity_phylo.text(0.2, 0.9, r'$\rho^{2} = $' + str(round(rho2_phylo, 3)), 
 ax_richness_dist_phylo.set_yscale('log', base=10)
 ax_richness_dist_phylo.set_xlabel("Observed fine vs. coarse-grained slope, richness", fontsize = 10)
 ax_richness_dist_phylo.set_ylabel("Probability density", fontsize = 10)
-ax_richness_dist_phylo.legend(handles=plot_utils.legend_elements, loc='upper right', fontsize=7)
+ax_richness_dist_phylo.legend(handles=plot_utils.legend_elements, loc='upper right', fontsize=7, frameon=False)
 
 
 
@@ -335,6 +335,11 @@ richness_slope_phylo_max = max(richness_slope_phylo_all)
 ax_richness_phylo.plot([richness_slope_phylo_min*0.8, richness_slope_phylo_max*1.2], [richness_slope_phylo_min*0.8, richness_slope_phylo_max*1.2], lw=2,ls='--',c='k',zorder=1, label='1:1')
 ax_richness_phylo.set_xlim([richness_slope_phylo_min*0.8,richness_slope_phylo_max*1.2])
 ax_richness_phylo.set_ylim([richness_slope_phylo_min*0.8,richness_slope_phylo_max*1.2])
+
+
+from matplotlib.lines import Line2D
+ax_richness_phylo.legend(handles=[Line2D([0], [0], label='1:1', lw=2, ls ='--', color='k')], loc='upper left', fontsize=9, frameon=False)
+
 
 
 

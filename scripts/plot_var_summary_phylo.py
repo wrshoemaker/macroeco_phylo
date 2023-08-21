@@ -159,10 +159,10 @@ for environment_idx, environment in enumerate(diversity_utils.environments_to_ke
 # plot example richness phylo
 color_phylo_example = plot_utils.get_custom_cmap_phylo(example_environment, n=len(distance_example))[1:,:]
 ax_rank_vs_richness_phylo.plot(distance_example, mean_richness_predicted_example_phylo, ls='-', lw=2, alpha=0.8, c='k')
-ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_predicted_example_phylo, color='k', s=45, linewidth=0.8, edgecolors='k', zorder=3)
-ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_observed_example_phylo, color=color_phylo_example, s=45, linewidth=0.8, edgecolors='k', zorder=4)
+ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_predicted_example_phylo, color='k', s=45, linewidth=0.8, edgecolors='k', zorder=3, label='Predicted, w/out correlation')
+ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_observed_example_phylo, color=color_phylo_example, s=45, linewidth=0.8, edgecolors='k', zorder=4, label='Observed')
 ax_rank_vs_richness_phylo.plot(distance_example, mean_richness_predicted_example_corr_phylo, ls=':', lw=2, alpha=0.8, c='k', zorder=2)
-ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_predicted_example_corr_phylo, color='k', s=45, linewidth=0.8, edgecolors='k', facecolors='white', zorder=3)
+ax_rank_vs_richness_phylo.scatter(distance_example, mean_richness_predicted_example_corr_phylo, color='k', s=45, linewidth=0.8, edgecolors='k', facecolors='white', zorder=3, label='Predicted, w/ correlation')
 
 
 
@@ -181,6 +181,8 @@ ax_rank_vs_richness_phylo.set_ylabel('Variance of richness', fontsize=12)
 ax_rank_vs_richness_phylo.set_xscale('log', base=10)
 ax_rank_vs_richness_phylo.set_yscale('log', base=10)
 ax_rank_vs_richness_phylo.set_xlabel('Phylogenetic distance', fontsize=12)
+
+ax_rank_vs_richness_phylo.legend(loc='lower left', fontsize=8, frameon=False)
 
 ax_rank_vs_diversity_phylo.set_ylabel('Variance of diversity', fontsize=12)
 ax_rank_vs_diversity_phylo.set_xscale('log', base=10)
@@ -202,7 +204,12 @@ ax_richness_phylo.set_yscale('log', base=10)
 ax_richness_phylo.set_xlabel('Observed variance of richness', fontsize=12)
 ax_richness_phylo.set_ylabel('Predicted variance of richness', fontsize=12)
 #ax_richness_phylo.legend(loc="lower right", fontsize=10)
-ax_richness_phylo.legend(handles=plot_utils.legend_elements, loc='upper left', fontsize=7, frameon=False)
+
+
+from matplotlib.lines import Line2D
+legend_elements = plot_utils.legend_elements
+legend_elements.append(Line2D([0], [0], label='1:1', lw=2, ls ='--', color='k'))
+ax_richness_phylo.legend(handles=legend_elements, loc='upper left', fontsize=7, frameon=False)
 
 
 

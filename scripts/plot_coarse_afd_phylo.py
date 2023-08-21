@@ -75,6 +75,8 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
         ax = plt.subplot2grid((3, 3), (environment_chunk_idx, environment_idx))
         ax_all.append(ax)
         sys.stderr.write("Running phylogenetic coarse-graining.....\n")
+
+        asv_log10_rescaled_all_to_fit = []
         for distance_idx, distance in enumerate(distances):
 
             sys.stderr.write("Phylo distance = %s \n" % round(distance, 7))
@@ -111,9 +113,18 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
                 clade_log10_rescaled = (clade_log10 - numpy.mean(clade_log10))/numpy.std(clade_log10)
                 clade_log10_rescaled_all.extend(clade_log10_rescaled)
 
-
+            asv_log10_rescaled_all_to_fit.extend(clade_log10_rescaled_all)
             hist_to_plot, bins_mean_to_plot = diversity_utils.get_hist_and_bins(clade_log10_rescaled_all)
             ax.scatter(bins_mean_to_plot, hist_to_plot, s=10, color=color_all(distances_all.index(distance)), alpha=0.9, lw=2)
+
+
+        asv_log10_rescaled_all_to_fit = numpy.asarray(asv_log10_rescaled_all_to_fit)
+        shape_gamma, loc_gamma, scale_gamma = stats.loggamma.fit(asv_log10_rescaled_all_to_fit)
+        x = numpy.linspace(stats.loggamma.ppf(0.0001, shape_gamma, loc=loc_gamma, scale=scale_gamma), stats.loggamma.ppf(0.9999, shape_gamma, loc=loc_gamma, scale=scale_gamma), 100)
+        pdf_loggamma_to_plot = stats.loggamma.pdf(x, shape_gamma, loc=loc_gamma, scale=scale_gamma)
+        ax.plot(x, pdf_loggamma_to_plot, 'k', ls='--', lw=3, label='Gamma fit')
+        #ax.legend(loc="upper left", fontsize=9, frameon=False)
+        ax.set_ylim([0.0004, 1.5])
 
 
         ax.set_title(' '.join(environment.split(' ')[:-1]).capitalize(), fontsize=11)
@@ -125,6 +136,9 @@ for environment_chunk_idx, environment_chunk in enumerate(environment_chunk_all)
 
         if environment_chunk_idx == len(environment_chunk_all)-1:
             ax.set_xlabel("Rescaled log relative abundance", fontsize = 10)
+
+        if (environment_chunk_idx ==0) and (environment_idx == 0):
+            ax.legend(loc="upper left", fontsize=9, frameon=False)
 
 
 
