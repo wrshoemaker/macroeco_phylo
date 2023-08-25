@@ -29,7 +29,7 @@ richness_diversity_prediction_phylo_dict_path = config.data_directory + "compare
 
 environments_to_keep = diversity_utils.environments_to_keep
 #environments_to_keep = [environments_to_keep[0]]
-environments_to_keep = ['human gut metagenome']
+#environments_to_keep = ['human gut metagenome']
 
 
 

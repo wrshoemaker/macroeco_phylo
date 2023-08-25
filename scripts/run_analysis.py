@@ -10,6 +10,7 @@ import numpy
 import diversity_utils
 import scipy.stats as stats
 import dbd_utils
+import dbd_richness_neutral
 
 
 
@@ -48,6 +49,10 @@ for environment in diversity_utils.environments_to_keep:
     # predict statistical moments of richness and diversity for phylogenetic coarse-graining
     sys.stderr.write("Predicting within-phylogenetic scale richness and diversity...\n")
     dbd_utils.make_richness_diversity_prediction_phylo_dict(environment, iter_=1000)
+
+    # predict DBD slope of richness estimates using taxonomic and phylogenetic coarse-graining
+    sys.stderr.write("Predicting DBD slopes for richness estimates...\n")
+    dbd_utils.make_richness_slm_dbd_dict(environment)
 
 
     # predict DBD slope of diversity estimates using taxonomic and phylogenetic coarse-graining
@@ -90,6 +95,11 @@ dbd_utils.make_richness_slm_dbd_dict()
 # for taxonomic coarse-graining AND generate DBD prediction 
 sys.stderr.write("Predicting taxonomic DBD slope for diversity estimates via simulations...\n")
 dbd_utils.make_diversity_slm_dbd_simulation_taxon_dict()
+
+
+# generate neutral theory predictions
+sys.stderr.write("Predicting neutral theory DBD slopes for richness estimates via simulations...\n")
+dbd_richness_neutral.make_neutral_dbd_slope_dict()
 
 
 
