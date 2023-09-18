@@ -22,7 +22,7 @@ import scipy.integrate as integrate
 
 
 # remove means *greater* than this value
-max_mad = [1e-0, 1e-1, 1e-2, 1e-3]
+max_mad = [1.0]
 
 
 
@@ -68,6 +68,28 @@ def predict_mean_and_var_richness_and_diversity_using_gamma_rv(s_by_s, iter_=100
        
         mean_diversity_all.append(numpy.mean(diversity_null))
         var_diversity_all.append(numpy.var(diversity_null))
+
+        # 
+
+        rel_abundances_gamma, read_counts_gamma_multinomial, read_counts_gamma_poisson = simulation_utils.genrate_community_from_mean_and_var_svd_multinomial_and_poisson(mean_rel_s_by_s, var_rel_s_by_s, n_reads, len(n_reads), svd)
+        read_counts_gamma_poisson_no_zeros  = read_counts_gamma_poisson[~numpy.all(read_counts_gamma_poisson == 0, axis=1)]
+        diversity_null_poisson = numpy.apply_along_axis(diversity_utils.calculate_shannon_diversity, 0, read_counts_gamma_poisson_no_zeros)
+
+        read_counts_gamma_no_zeros = read_counts_gamma[~numpy.all(read_counts_gamma == 0, axis=1)]
+        var_dict = predict_mean_and_var_diversity_analytic(read_counts_gamma_no_zeros, read_counts_gamma_no_zeros.shape[0])
+        var_dict_poisson = predict_mean_and_var_diversity_analytic(read_counts_gamma_poisson_no_zeros, read_counts_gamma_poisson_no_zeros.shape[0])
+
+        
+        print(numpy.mean(var_dict[max_mad[0]]), numpy.var(diversity_null), numpy.mean(var_dict_poisson[max_mad[0]]), numpy.var(diversity_null_poisson))
+
+        rel_read_counts_gamma = (read_counts_gamma/read_counts_gamma.sum(axis=0))
+        mean_rel_s_by_s_i = numpy.mean(rel_read_counts_gamma, axis=1)
+        var_rel_s_by_s_i = numpy.var(rel_read_counts_gamma, axis=1)
+
+        mean_mean_error = numpy.mean(numpy.absolute(mean_rel_s_by_s - mean_rel_s_by_s_i)/mean_rel_s_by_s)
+        mean_var_error = numpy.mean(numpy.absolute(numpy.sqrt(var_rel_s_by_s) - numpy.sqrt(var_rel_s_by_s_i))/numpy.sqrt(var_rel_s_by_s))
+        #print(mean_mean_error, mean_var_error)
+
 
         for max_mad_j in max_mad:
 
@@ -152,6 +174,69 @@ def predict_mean_and_var_diversity_analytic(s_by_s, species):
 
 
 
+def predict_mean_and_var_diversity_analytic_sum(s_by_s, species):
+
+    rel_s_by_s = (s_by_s/s_by_s.sum(axis=0))
+
+    diversity_ = numpy.apply_along_axis(diversity_utils.calculate_shannon_diversity, 0, rel_s_by_s)
+    print(numpy.var(diversity_))
+
+    n_reads = s_by_s.sum(axis=0)
+
+    mean_rel_s_by_s = numpy.mean(rel_s_by_s, axis=1)
+    var_rel_s_by_s = numpy.var(rel_s_by_s, axis=1)
+    beta_rel_s_by_s = (mean_rel_s_by_s**2)/var_rel_s_by_s
+
+    diversity_first_moment_all = []
+    diversity_second_moment_all = []
+
+
+    var_dict = {}
+    for max_mad_j in max_mad:
+        var_dict[max_mad_j] = []
+
+
+    # dict with integral for each species for each sample
+    var_all = []
+    for m in range(len(n_reads)):
+
+        N_m = int(n_reads[m])
+
+        diversity_first_moment_m = 0
+        diversity_second_moment_m = 0
+
+        integrand_first_moment_all = []
+        integrand_second_moment_first_term_all = []
+        for i in range(len(mean_rel_s_by_s)):
+
+            mean_i = mean_rel_s_by_s[i]
+            beta_i = beta_rel_s_by_s[i]
+
+            integral_first_moment_result_i = 0
+            integral_second_moment_result_i = 0
+            for n_m in range(1, N_m+1):
+
+                integral_first_moment_result_i += -1*(n_m/N_m)*numpy.log(n_m/N_m)*diversity_utils.prob_n_reads(n_m, N_m, mean_i, beta_i)
+                integral_second_moment_result_i += (((n_m/N_m)*numpy.log(n_m/N_m))**2) *diversity_utils.prob_n_reads(n_m, N_m, mean_i, beta_i)
+
+            integrand_first_moment_all.append(integral_first_moment_result_i)
+            integrand_second_moment_first_term_all.append(integral_second_moment_result_i)
+        
+        integrand_second_moment_second_term = 0
+        for i in range(len(integrand_first_moment_all)):
+            for j in range(i):
+                integrand_second_moment_second_term += integrand_first_moment_all[i]*integrand_first_moment_all[j]
+
+
+        var_m = sum(integrand_second_moment_first_term_all) + 2*integrand_second_moment_second_term - sum(integrand_first_moment_all)**2
+        var_all.append(var_m)
+        print(var_m)
+
+
+            #(n/N)*numpy.log(n/N) * prob_n_reads(n, N, mean_, beta_)
+
+
+    print(numpy.mean(var_all), numpy.var(diversity_))
 
 
 
@@ -169,7 +254,7 @@ sys.stderr.write("Getting site-by-species matrix...\n")
 s_by_s = numpy.asarray([sad_annotated_dict['taxa'][t]['abundance'] for t in taxa])
 
 
-rank = 'genus'
+rank = 'family'
 sys.stderr.write("Running taxonomic coarse-graining.....\n")
 
 sys.stderr.write("Starting %s level analysis...\n" % rank)
@@ -199,17 +284,19 @@ s_by_s_genera = s_by_s_genera[:,~(numpy.all(s_by_s_genera == 0, axis=0))]
 
 
 
-var_dict_pred = predict_mean_and_var_diversity_analytic(s_by_s_genera, s_by_s_genera.shape[0])
+#predict_mean_and_var_diversity_analytic_sum(s_by_s_genera, s_by_s_genera.shape[0])
+
+#var_dict_pred = predict_mean_and_var_diversity_analytic(s_by_s_genera, s_by_s_genera.shape[0])
 var_dict_sim = predict_mean_and_var_richness_and_diversity_using_gamma_rv(s_by_s_genera)
 
-for m in max_mad:
+#for m in max_mad:
 
-    mean_var_pred = numpy.mean(var_dict_pred[m])
-    mean_var_sim = numpy.mean(var_dict_sim[m])
+#    mean_var_pred = numpy.mean(var_dict_pred[m])
+#    mean_var_sim = numpy.mean(var_dict_sim[m])
 
-    rel_error = numpy.absolute(mean_var_pred - mean_var_sim)/mean_var_sim
+#    rel_error = numpy.absolute(mean_var_pred - mean_var_sim)/mean_var_sim
 
-    print(mean_var_pred, mean_var_sim, rel_error)
+#    print(mean_var_pred, mean_var_sim, rel_error)
 
 
 

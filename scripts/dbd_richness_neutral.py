@@ -221,9 +221,15 @@ def make_neutral_dbd_slope_dict():
             s_by_s_coarse = numpy.add.reduceat(s_by_s_fine, coarse_idx, axis=0)       
             s_by_s_neutral_coarse = numpy.add.reduceat(s_by_s_neutral_fine, coarse_idx, axis=0)       
 
+            # predict diversity and richnesss
+            observed_mean_richness =  numpy.mean(numpy.apply_along_axis(diversity_utils.calculate_richness, 0, s_by_s_coarse))
+            predicted_mean_richness =  numpy.mean(numpy.apply_along_axis(diversity_utils.calculate_richness, 0, s_by_s_neutral_coarse))
 
             dbd_dict[environment]['taxon'][coarse_rank] = {}
             dbd_dict[environment]['taxon'][coarse_rank]['focal_coarse'] = {}
+
+            dbd_dict[environment]['taxon'][coarse_rank]['observed_mean_richness'] = observed_mean_richness
+            dbd_dict[environment]['taxon'][coarse_rank]['predicted_mean_richness'] = predicted_mean_richness
 
             slope_all = []
             slope_neutral_all = []
@@ -402,6 +408,12 @@ def make_neutral_dbd_slope_dict():
             # error
             mean_error_slope_neutral = numpy.mean(numpy.absolute( slope_neutral_all - slope_all) / numpy.absolute(slope_all))
 
+
+             # predict diversity and richnesss
+            observed_mean_richness =  numpy.mean(numpy.apply_along_axis(diversity_utils.calculate_richness, 0, s_by_s_coarse))
+            predicted_mean_richness =  numpy.mean(numpy.apply_along_axis(diversity_utils.calculate_richness, 0, s_by_s_coarse_neutral))
+
+
             dbd_dict[environment]['phylo'][coarse_distance] = {}
             dbd_dict[environment]['phylo'][coarse_distance]['slope_all'] = slope_all.tolist()
             dbd_dict[environment]['phylo'][coarse_distance]['slope_neutral_all'] = slope_neutral_all.tolist()
@@ -409,7 +421,9 @@ def make_neutral_dbd_slope_dict():
             dbd_dict[environment]['phylo'][coarse_distance]['mean_slope_neutral'] = mean_slope_neutral_all
             dbd_dict[environment]['phylo'][coarse_distance]['mean_error_slope_neutral'] = mean_error_slope_neutral
 
-            print(mean_error_slope_neutral)
+            dbd_dict[environment]['phylo'][coarse_distance]['observed_mean_richness'] = observed_mean_richness
+            dbd_dict[environment]['phylo'][coarse_distance]['predicted_mean_richness'] = predicted_mean_richness
+
 
 
     
@@ -480,7 +494,7 @@ def test_slope_plot():
 
 if __name__=='__main__':
 
-    make_rarefied_sads_dict()
+    #make_rarefied_sads_dict()
     make_neutral_dbd_slope_dict()
 
 

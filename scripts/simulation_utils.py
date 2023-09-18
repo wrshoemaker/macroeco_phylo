@@ -292,6 +292,43 @@ def genrate_community_from_mean_and_var_svd(mean, var, N, n_sites, svd):
 
 
 
+def genrate_community_from_mean_and_var_svd_multinomial_and_poisson(mean, var, N, n_sites, svd):
+
+    Z = numpy_multivariate_normal(numpy.asarray([0]*len(mean)), svd, size=n_sites)
+
+    U = norm.cdf(Z)
+
+    beta = (mean**2)/var
+
+    abundances_all = []
+    for idx in range(n_sites):
+        # scale = 1/rate
+        G = gamma.ppf(U[idx,:], beta, scale=mean/beta)
+        abundances_all.append(G)
+
+    abundances_all = numpy.asarray(abundances_all).T
+
+    # Normalise, to have relative abundances
+    rel_abundances_all =  abundances_all/numpy.sum(abundances_all, axis=0)
+
+
+
+    read_counts_multinomial_all = []
+    read_counts_poisson_all = []
+    for sad_idx, sad in enumerate(rel_abundances_all.T):
+        read_counts_multinomial_all.append(numpy.random.multinomial(int(N[sad_idx]), sad))
+        read_counts_poisson_all.append(numpy.random.poisson(lam=int(N[sad_idx])*rel_abundances_all[:,sad_idx]))
+
+    read_counts_multinomial_all = numpy.asarray(read_counts_multinomial_all).T
+    read_counts_poisson_all = numpy.asarray(read_counts_poisson_all).T
+
+    #, read_counts_poisson_all
+    
+
+    return rel_abundances_all, read_counts_multinomial_all, read_counts_poisson_all
+
+
+
 
 
 

@@ -1,5 +1,8 @@
 library('sads')
 
+set.seed(123456789)
+
+
 n_samples <- 100
 environments <- c('freshwater_sediment', 'freshwater', 'marine_sediment', 'marine', 'human_oral', 'human_skin', 'soil', 'human_gut', 'microbial_mat')
 theta <- 50

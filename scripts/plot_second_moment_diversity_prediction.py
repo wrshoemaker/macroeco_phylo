@@ -31,7 +31,9 @@ sys.stderr.write("Getting site-by-species matrix...\n")
 
 s_by_s = numpy.asarray([sad_annotated_dict['taxa'][t]['abundance'] for t in taxa])
 
-taxa_ranks = ['family']
+#taxa_ranks = ['genus', 'family', 'order', 'class']
+taxa_ranks = ['order']
+
 #diversity_utils.taxa_ranks
 
 fig, ax = plt.subplots(figsize=(4,4))
@@ -69,20 +71,24 @@ for rank_idx, rank in enumerate(taxa_ranks):
         # remove sites where there are no observations
         s_by_s_genera = s_by_s_genera[:,~(numpy.all(s_by_s_genera == 0, axis=0))]
     
-
-    expected_diversity_second_moment_first_term, expected_diversity_second_moment_first_term_rvs, expected_diversity_second_moment_second_term, expected_diversity_second_moment_second_term_rvs = diversity_utils.predict_second_moment(s_by_s_genera)
+    print(rank)
+    expected_diversity_second_moment_first_term, expected_diversity_second_moment_first_term_rvs, expected_diversity_second_moment_second_term, expected_diversity_second_moment_second_term_rvs = diversity_utils.predict_second_moment_diversity(s_by_s_genera)
 
     # test variance
-    idx_to_remove = (expected_diversity_second_moment_second_term > 10**-10.5)
+    #idx_to_remove = (expected_diversity_second_moment_second_term > 10**-10.5)
+    #idx_to_remove = (expected_diversity_second_moment_second_term > 0)
 
-    sum_second_rvs = sum(expected_diversity_second_moment_second_term[idx_to_remove])
-    sum_second = sum(expected_diversity_second_moment_second_term_rvs[idx_to_remove])
+    
+    #print(expected_diversity_second_moment_second_term)
 
-    #print(sum_second_rvs, sum_second)
+    #sum_second = sum(expected_diversity_second_moment_second_term[idx_to_remove])
+    #sum_second_rvs = sum(expected_diversity_second_moment_second_term_rvs[idx_to_remove])
+
+    #print(sum_second_rvs, sum_second, sum(expected_diversity_second_moment_second_term==0))
 
 
-    expected_diversity_second_moment = expected_diversity_second_moment_second_term
-    expected_diversity_second_moment_rvs = expected_diversity_second_moment_second_term_rvs
+    expected_diversity_second_moment = expected_diversity_second_moment_first_term
+    expected_diversity_second_moment_rvs = expected_diversity_second_moment_first_term_rvs
 
     idx_to_keep = (expected_diversity_second_moment>0) & (expected_diversity_second_moment_rvs>0)
     expected_diversity_second_moment = expected_diversity_second_moment[idx_to_keep]

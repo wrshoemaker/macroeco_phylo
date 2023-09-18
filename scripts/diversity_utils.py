@@ -1015,7 +1015,7 @@ def summation_second_moment(n_range, N, mean_, beta_):
 
 
 
-def predict_second_moment(s_by_s, iter_=100):
+def predict_second_moment_diversity(s_by_s, iter_=100):
 
     rel_s_by_s = (s_by_s/s_by_s.sum(axis=0))
 
@@ -1043,10 +1043,10 @@ def predict_second_moment(s_by_s, iter_=100):
             mean_i = mean_rel_s_by_s[i]
             beta_i = beta_rel_s_by_s[i]
 
-            integrand_second_moment_result = integrate.quad(integrand_second_moment, 0, N_m, args=(N_m, mean_i, beta_i),  epsabs=1e-25)
+            integrand_second_moment_result = integrate.quad(integrand_second_moment, 0, N_m, args=(N_m, mean_i, beta_i), epsabs=1e-25)
             diversity_second_moment_m.append(numpy.absolute(integrand_second_moment_result[0]))
 
-            integrand_first_moment_result = integrate.quad(integrand_first_moment, 0, N_m, args=(N_m, mean_i, beta_i),  epsabs=1e-25)
+            integrand_first_moment_result = integrate.quad(integrand_first_moment, 0, N_m, args=(N_m, mean_i, beta_i), epsabs=1e-25)
             diversity_second_moment_second_term_m.append(integrand_first_moment_result[0])
             diversity_first_moment_m.append(integrand_first_moment_result[0])
 
@@ -1075,6 +1075,7 @@ def predict_second_moment(s_by_s, iter_=100):
 
     expected_diversity_second_moment_rvs_all = []
     product_pairs_null = []
+    mean_diversity_rvs_all = []
     var_diversity_rvs_all = []
     for i in range(iter_):
         
@@ -1088,6 +1089,8 @@ def predict_second_moment(s_by_s, iter_=100):
         #rel_read_counts_gamma_first_moment[numpy.isnan(rel_read_counts_gamma_first_moment)] = 0
 
         # diversity
+        mean_diversity_rvs = numpy.mean(numpy.apply_along_axis(calculate_shannon_diversity, 0, rel_read_counts_gamma))
+        mean_diversity_rvs_all.append(mean_diversity_rvs)
         var_diversity_rvs = numpy.var(numpy.apply_along_axis(calculate_shannon_diversity, 0, rel_read_counts_gamma))
         var_diversity_rvs_all.append(var_diversity_rvs)
 
@@ -1103,46 +1106,48 @@ def predict_second_moment(s_by_s, iter_=100):
         # product pairs
         for i in range(len(expected_diversity_first_moment_rvs)):
             for j in range(i):
-
                 product_pairs_null_i.append(expected_diversity_first_moment_rvs[i] * expected_diversity_first_moment_rvs[j])
 
         product_pairs_null.append(product_pairs_null_i)
 
     
     product_pairs_null = numpy.asarray(product_pairs_null)
-    expected_product_pairs_null_null = numpy.mean(product_pairs_null, axis=0)
+    # mean over samples
+    expected_product_pairs_null = numpy.mean(product_pairs_null, axis=0)
 
     expected_diversity_second_moment_rvs_all = numpy.asarray(expected_diversity_second_moment_rvs_all)
     expected_diversity_second_moment_rvs = numpy.mean(expected_diversity_second_moment_rvs_all, axis=0)
 
     
-    print(len(numpy.sum(expected_diversity_second_moment_rvs_all, axis=1)))
-    print('first term')
-    print(sum(expected_diversity_second_moment), numpy.mean(numpy.sum(expected_diversity_second_moment_rvs_all, axis=1)))
+    #print('mean diversity')
+    #print(numpy.mean(-1*numpy.sum(diversity_first_moment_all, axis=1)),  numpy.mean(mean_diversity_rvs_all) )
+    # very close 1.9910828907474265 2.0655566921708304
 
-    # print sum
-    print('second term')
-    print(sum(expected_product_pairs), numpy.mean(numpy.sum(product_pairs_null, axis=1)))
+    # print('First term second moment)
+    #print(numpy.mean(numpy.sum(diversity_second_moment_all, axis=1)), sum(expected_diversity_second_moment_rvs))
+    # close! 0.4028098845142538 0.4247168815058817
+
+    # print('Second term second moment)
+    #print( numpy.mean( numpy.sum(product_pairs, axis=1)), sum(expected_product_pairs_null))
+    # also close, 1.838069530985169 1.9796198968924306
 
 
-    #print('second moment')
-    # variance rvs
-    #variance_rvs = numpy.sum(expected_diversity_second_moment_rvs_all, axis=1) + numpy.sum(product_pairs_null, axis=1)
-    #print(sum(expected_diversity_second_moment) + sum(expected_product_pairs), numpy.mean(variance_rvs), numpy.mean(var_diversity_rvs_all))
+    mean_predicted = -1*sum(numpy.mean(diversity_first_moment_all, axis=0))
+    #print(mean_predicted)
 
-    print('variance')
+    #-1*sum(numpy.mean(diversity_first_moment_all, axis=0))
+    
+    #print(len(numpy.mean(diversity_second_moment_all, axis=0)))
+    var_predicted_rvs =  sum(expected_diversity_second_moment_rvs)  + 2*sum(expected_product_pairs_null)  - numpy.mean(mean_diversity_rvs_all)**2 
+    #var_predicted = numpy.mean(numpy.sum(diversity_second_moment_all, axis=1)) + 2*sum(expected_product_pairs) - (mean_predicted**2)
+    var_predicted = sum(numpy.mean(diversity_second_moment_all, axis=0)) + 2*sum(expected_product_pairs) - (mean_predicted**2)
 
-    #sum(expected_diversity_second_moment) + sum(expected_product_pairs)
-
-    var_predicted = numpy.mean(numpy.sum(diversity_second_moment_all, axis=1) + numpy.sum(product_pairs, axis=1) - (numpy.sum(diversity_first_moment_all, axis=1)**2))
-
-    #(numpy.sum(diversity_first_moment_all, axis=1)**2)
-
-    print(var_predicted, numpy.mean(var_diversity_rvs_all))
+   
+    print(var_predicted, numpy.mean(var_diversity_rvs_all), var_predicted_rvs)
 
     
     
-    return expected_diversity_second_moment, expected_diversity_second_moment_rvs, expected_product_pairs, expected_product_pairs_null_null
+    return expected_diversity_second_moment, expected_diversity_second_moment_rvs, expected_product_pairs, expected_product_pairs_null
 
 
 
@@ -1173,6 +1178,7 @@ def predict_mean_and_var_diversity_analytic(s_by_s, species):
 
     mean_all = []
     var_all = []
+    second_moment_all = []
 
     # dict with integral for each species for each sample
     for m in range(len(n_reads)):
@@ -1217,10 +1223,13 @@ def predict_mean_and_var_diversity_analytic(s_by_s, species):
                 diversity_second_moment_second_term_m += integrand_first_moment_all[i]*integrand_first_moment_all[j]
 
         mean_m = sum(integrand_first_moment_all)
+        #var_m = sum(integrand_second_moment_all) + 2*diversity_second_moment_second_term_m - (mean_m**2)
         var_m = sum(integrand_second_moment_all) + 2*diversity_second_moment_second_term_m - (mean_m**2)
+        second_moment_m = sum(integrand_second_moment_all) + 2*diversity_second_moment_second_term_m 
 
         mean_all.append(mean_m)
         var_all.append(var_m)
+        second_moment_all.append(second_moment_m)
 
         #diversity_second_moment_m = diversity_second_moment_m+(2*diversity_second_moment_second_term_m)
         #diversity_first_moment_all.append(diversity_first_moment_m)
@@ -1233,6 +1242,8 @@ def predict_mean_and_var_diversity_analytic(s_by_s, species):
 
     mean_diversity_predicted = numpy.mean(mean_all) 
     var_diversity_predicted = numpy.mean(var_all)
+    second_moment_predicted = numpy.mean(second_moment_all)
+    print(second_moment_predicted - mean_diversity_predicted**2)
     #var_diversity_predicted = numpy.mean(diversity_second_moment_all - (mean_diversity_predicted**2))
 
     #mean_diversity_predicted_sum = numpy.mean(numpy.absolute(diversity_first_moment_sum_all)) 
@@ -1260,8 +1271,8 @@ def predict_mean_and_var_diversity_analytic_with_integral(s_by_s, species, first
     n_reads = s_by_s.sum(axis=0)
 
     mean_rel_s_by_s = numpy.mean(rel_s_by_s, axis=1)
-    var_rel_s_by_s = numpy.var(rel_s_by_s, axis=1)
-    beta_rel_s_by_s = (mean_rel_s_by_s**2)/var_rel_s_by_s
+    #var_rel_s_by_s = numpy.var(rel_s_by_s, axis=1)
+    #beta_rel_s_by_s = (mean_rel_s_by_s**2)/var_rel_s_by_s
 
     diversity_first_moment_all = []
     diversity_second_moment_all = []
