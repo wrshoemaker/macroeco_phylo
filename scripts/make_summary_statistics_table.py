@@ -40,6 +40,8 @@ for environment_idx, environment in enumerate(diversity_utils.environments_to_ke
     mean_n_otus = numpy.mean(numpy.sum(s_by_s>0, axis=0))
     mean_n_reads = numpy.mean(numpy.sum(s_by_s, axis=0))
 
+    print(numpy.sum(s_by_s, axis=0))
+
     output_file_taxon.write("\n")
     output_file_taxon.write("%s, %d, %0.2f, %0.2f" % (environment, n_otus_taxon, mean_n_otus, mean_n_reads))
 
