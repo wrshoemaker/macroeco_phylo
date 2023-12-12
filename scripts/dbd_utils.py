@@ -64,14 +64,18 @@ diversity_vs_diversity_phylo_resource_template = config.data_directory + "divers
 diversity_vs_diversity_phylo_emp_template = config.data_directory + "diversity_vs_diversity_phylo%s.pickle"
 
 
-richness_dbd_dict_path = config.data_directory + "richness_dbd_dict.pickle"
+#richness_dbd_dict_path = config.data_directory + "richness_dbd_dict.pickle"
+richness_dbd_dict_path = config.data_directory + "figure-5-source-data.pickle"
 diversity_dbd_dict_path = config.data_directory + "diversity_dbd_dict/diversity_dbd_%s_dict.pickle"
 
-diversity_dbd_simulation_taxon_dict_path = config.data_directory + "diversity_dbd_simulation_taxon_dict.pickle"
+#diversity_dbd_simulation_taxon_dict_path = config.data_directory + "diversity_dbd_simulation_taxon_dict.pickle"
+diversity_dbd_simulation_taxon_dict_path = config.data_directory + "figure-6-source-data.pickle"
 diversity_dbd_simulation_phylo_dict_path = config.data_directory + "diversity_dbd_simulation_phylo_dict/diversity_dbd_simulation_phylo_%s_dict.pickle"
 
 
-richness_diversity_prediction_taxon_dict_path = config.data_directory + "richness_diversity_prediction_taxon_dict.pickle"
+#richness_diversity_prediction_taxon_dict_path = config.data_directory + "richness_diversity_prediction_taxon_dict.pickle"
+richness_diversity_prediction_taxon_dict_path = config.data_directory + "figure-3-figure-supplement-2-source-data.pickle"
+
 richness_diversity_prediction_phylo_dict_path = config.data_directory + "richness_diversity_prediction_phylo_dict/richness_diversity_prediction_phylo_%s_dict.pickle"
 
 

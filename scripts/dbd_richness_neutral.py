@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 taxon_path = config.data_directory + "neutral_s_by_s_rarefied/taxon/%s.pickle"
 phylo_path = config.data_directory + "neutral_s_by_s_rarefied/phylo/%s.pickle"
 
-richness_dbd_neutral_dict_path = config.data_directory + "richness_dbd_neutral_dict.pickle"
+#richness_dbd_neutral_dict_path = config.data_directory + "richness_dbd_neutral_dict.pickle"
+richness_dbd_neutral_dict_path = config.data_directory + "figure-3-figure-supplement-3-source-data.pickle"
 
 
 environments_to_keep = diversity_utils.environments_to_keep

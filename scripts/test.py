@@ -1,9 +1,0 @@
-import dbd_utils
-
-
-environment = 'marine sediment metagenome'
-
-dbd_utils.richness_diversity_phylo_mean_simulation(environment)
-
-
-#mean_richness_observed_gamma_rvs, var_richness_observed_gamma_rvs, mean_richness_predicted_gamma_rvs, var_richness_predicted_gamma_rvs, mean_diversity_observed_gamma_rvs, var_diversity_observed_gamma_rvs, mean_diversity_predicted_gamma_rvs, var_diversity_predicted_gamma_rvs = diversity_utils.predict_mean_and_var_richness_and_diversity_using_gamma_rv(s_by_s_genera, iter_=iter_)

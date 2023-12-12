@@ -55,11 +55,28 @@ Alternatively, these files are also available on [Qiita](https://qiita.ucsd.edu/
 
 
 
-### Running the analyses
+### Processing the data
 
 ```bash
 python ~/GitHub/macroeco_phylo/scripts/run_analyses.py
 ```
+
+
+
+### Running the analyses
+Run the following command to re-run the analyses for the figures. Make sure you are in your conda environment.
+
+```bash
+sh ~/GitHub/macroeco_phylo/scripts/run_everything.sh
+```
+Commands to regenerate each figure can be found in that file.
+
+Run the following command to re-calculate the summary statistics for the tables.
+```bash
+python ~/GitHub/macroeco_phylo/scripts/make_tables_one_and_two.py
+```
+
+
 
 
 
